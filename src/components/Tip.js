@@ -45,8 +45,10 @@ export default function tip() {
 
   function clickHandler() {
     setShow(true);
-    audio.pause();
-    audio.currentTime = 0;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
     document.querySelector('#lubimka').play();
     setTimeout(() => {
       setShow(false);

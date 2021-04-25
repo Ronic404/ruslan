@@ -22,6 +22,11 @@ const Avatars = styled.div`
   }
 `;
 
+const ButtonQuiz = styled.button`
+  width: 100%;
+  margin-top: 10px;
+`;
+
 // -------------------------------------------------------------
 
 export default function StartPage() {
@@ -59,6 +64,10 @@ export default function StartPage() {
         </Link>
       </Avatars>
       <button type="button" onClick={clickHandler}>Сколько дней отработано?</button>
+      <br />
+      <Link to="/quiz">
+        <ButtonQuiz type="button">Викторина</ButtonQuiz>
+      </Link>
     </>
   );
 }

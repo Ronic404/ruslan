@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     padding: 1rem 2rem;
     background: linear-gradient(#5cc57c, #49639c);
+    position: relative;
   }
 `;
 
