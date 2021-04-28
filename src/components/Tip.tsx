@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import song from '../audio/lubimka.mp3';
@@ -38,18 +38,19 @@ const TipTitle = styled.p`
 
 // -----------------------------------------------
 
-export default function tip() {
-  const [show, setShow] = useState(false);
+const tip: FC = () => {
+  const [show, setShow] = useState<boolean>(false);
 
-  const audio = document.querySelector('#unitaz');
+  const audio: HTMLAudioElement | null = document.querySelector('#unitaz');
+  const audio2: HTMLAudioElement | null = document.querySelector('#lubimka');
 
-  function clickHandler() {
+  function clickHandler(): void {
     setShow(true);
     if (audio) {
       audio.pause();
       audio.currentTime = 0;
     }
-    document.querySelector('#lubimka').play();
+    audio2?.play();
     setTimeout(() => {
       setShow(false);
     }, 2000);
@@ -65,3 +66,5 @@ export default function tip() {
     </Tip>
   );
 }
+
+export default tip;

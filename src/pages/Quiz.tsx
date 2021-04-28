@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import { Dispatch, FC, useRef, useState, FormEvent} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 import Tip from '../components/Tip';
 
+import { Actions } from '../types/forRedux';
 import { setNameAction } from '../redux/actions';
 
 import tralala from '../audio/tralala.mp3';
@@ -46,9 +47,13 @@ const Popup = styled.div`
   font-size: 2rem;
 `;
 
+interface IQuizProps {
+  setNameAction: (name: string) => Actions;
+}
+
 // -----------------------------------------------
 
-function Quiz({ setNameAction }) {
+const Quiz: FC<IQuizProps> = ({ setNameAction }) => {
   setNameAction('quiz');
   const answers = [
     'увеличивай средний чек',
@@ -60,26 +65,28 @@ function Quiz({ setNameAction }) {
   const [showPopup, setShowPopup] = useState(false);
   const [result, setResult] = useState('');
 
-  const refInput = useRef(null);
+  const refInput = useRef<HTMLInputElement>(null);
 
-  function closePopup() {
+  function closePopup(): void {
     setShowPopup(false);
   }
 
-  function clickHandler(e) {
+  function clickHandler(e: FormEvent<HTMLButtonElement>): void {
     e.preventDefault();
-    if (answers.includes(refInput.current.value.toLowerCase().trim())) {
-      new Audio(tralala).play();
-      setResult('Красучик!!!');
-      setShowPopup(true);
-    } else if (refInput.current.value === '') {
-      return
-    } else {
-      new Audio(among).play();
-      setResult('Ёпс тудэй, может нужно увеличить средний чек?');
-      setShowPopup(true);
+    if (refInput.current !== null) {
+      if (answers.includes(refInput.current.value.toLowerCase().trim())) {
+        new Audio(tralala).play();
+        setResult('Красучик!!!');
+        setShowPopup(true);
+      } else if (refInput.current.value === '') {
+        return
+      } else {
+        new Audio(among).play();
+        setResult('Ёпс тудэй, может нужно увеличить средний чек?');
+        setShowPopup(true);
+      }
+      refInput.current.value = '';
     }
-    refInput.current.value = '';
   }
 
   return (
@@ -110,9 +117,9 @@ function Quiz({ setNameAction }) {
 
 // ------------------------------------------------
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<Actions>) {
   return {
-    setNameAction: function(name) {
+    setNameAction: function(name: string): any {
       dispatch(setNameAction(name));
     }
   }

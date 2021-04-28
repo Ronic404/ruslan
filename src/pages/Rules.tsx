@@ -1,9 +1,11 @@
+import { Dispatch, FC } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import store from '../redux/store';
 import { setNameAction } from '../redux/actions';
+import { Actions } from '../types/forRedux';
 
 import answer from '../audio/what.mp3';
 import question from '../audio/plan.mp3';
@@ -14,14 +16,18 @@ const Button = styled.button`
   font-size: 1.5rem;
 `;
 
+interface IRulesProps {
+  setNameAction: (name: string) => Actions;
+}
+
 // -----------------------------------------------
 
-function Rules({ setNameAction }) {
+const Rules: FC<IRulesProps> = ({ setNameAction }) => {
   setNameAction('rules');
-  let currentAudio;
+  let currentAudio: HTMLAudioElement;
   store.subscribe(() => currentAudio && currentAudio.pause());
   
-  function playSound(sound) {
+  function playSound(sound: any): void {
     if (currentAudio) currentAudio.pause();
     currentAudio = new Audio(sound);
     currentAudio.play()
@@ -42,9 +48,9 @@ function Rules({ setNameAction }) {
 
 // ------------------------------------------------
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<Actions>) {
   return {
-    setNameAction: function(name) {
+    setNameAction: function(name: string): any {
       dispatch(setNameAction(name));
     }
   }

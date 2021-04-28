@@ -1,12 +1,20 @@
+import { Dispatch, FC } from 'react';
 import { connect } from 'react-redux';
 
 import { setNameAction } from '../redux/actions';
+import { Actions } from '../types/forRedux';
 
 import Photos from '../components/Photos';
 import Form from '../components/Form';
 import Answer from '../components/Answer';
 
-function RomaPage({ setNameAction }) {
+interface IRomaProps {
+  setNameAction: (name: string) => Actions
+}
+
+// ------------------------------------------------
+
+const RomaPage: FC<IRomaProps> = ({ setNameAction }) => {
   setNameAction('roma');
   
   return (
@@ -18,9 +26,11 @@ function RomaPage({ setNameAction }) {
   );
 }
 
-function mapDispatchToProps(dispatch) {
+// ------------------------------------------------
+
+function mapDispatchToProps(dispatch: Dispatch<Actions>) {
   return {
-    setNameAction: function(name) {
+    setNameAction: function(name: string): any {
       dispatch(setNameAction(name));
     }
   }

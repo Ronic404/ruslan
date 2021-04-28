@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Title from './components/Title';
@@ -6,7 +7,7 @@ import StartPage from './pages/StartPage';
 import RuslanPage from './pages/RuslanPage';
 import RomaPage from './pages/RomaPage';
 import Rules from './pages/Rules';
-import Quiz from './pages//Quiz';
+import Quiz from './pages/Quiz';
 
 export default function App() {
   return (

@@ -1,13 +1,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { FC } from 'react';
+import { IState } from '../types/forRedux';
 
 const Answer = styled.div`
   font-size: 1.5rem;
   margin-top: 0.5rem;
 `;
 
-function answer({num, isAnswered, name}) {
+interface IAnswer {
+  num: number;
+  isAnswered: boolean;
+  name: string | null;
+}
+
+// ----------------------------------------------------
+
+const answer: FC<any> | undefined = ({num, isAnswered, name}) => {
   switch (name) {
     case 'ruslan':
       return (
@@ -22,12 +32,14 @@ function answer({num, isAnswered, name}) {
         </>
       );
     default:
+      return(<></>);
       break;
   }
-  
 }
 
-function mapStateToprops(state) {
+// ----------------------------------------------------
+
+function mapStateToprops(state: IState) {
   return {
     num: state.numberOfDeals,
     isAnswered: state.isAnswered,

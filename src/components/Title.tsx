@@ -1,8 +1,11 @@
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { FC } from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { resetName } from '../redux/actions';
+import { Actions, IState } from '../types/forRedux';
 
 const Header = styled.div`
   position: relative;
@@ -23,9 +26,14 @@ const Back = styled.div`
   color: green;
 `;
 
+interface ITitle {
+  name: string | null;
+  resetName: () => Actions;
+}
+
 // ------------------------------------------------------
 
-function Title({ name, resetName }) {
+const Title: FC<ITitle> = ({ name, resetName }) => {
   function clickHandler() {
     resetName();
   }
@@ -45,15 +53,15 @@ function Title({ name, resetName }) {
 
 // ------------------------------------------------------
 
-function mapStateToProps(state) {
+function mapStateToProps(state: IState) {
   return {
     name: state.name,
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<Actions>) {
   return {
-    resetName: function() {
+    resetName: function(): any {
       dispatch(resetName())
     }
   }

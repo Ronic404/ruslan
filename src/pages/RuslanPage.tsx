@@ -1,3 +1,5 @@
+import { FC } from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
 import Photos from '../components/Photos';
@@ -6,10 +8,16 @@ import Answer from '../components/Answer';
 import Tip from '../components/Tip';
 
 import { setNameAction } from '../redux/actions';
+import { Actions, IState } from '../types/forRedux';
+
+interface IRuslanPageProps {
+  isAnswered: boolean;
+  setNameAction: (name: string) => Actions;
+}
 
 // --------------------------------------------------
 
-function RuslanPage({ isAnswered, setNameAction }) {
+const RuslanPage: FC<IRuslanPageProps> = ({ isAnswered, setNameAction }) => {
   setNameAction('ruslan');
 
   return (
@@ -24,15 +32,15 @@ function RuslanPage({ isAnswered, setNameAction }) {
 
 // --------------------------------------------------
 
-function mapStateToProps(state) {
+function mapStateToProps(state: IState) {
   return {
     isAnswered: state.isAnswered,
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<Actions>) {
   return {
-    setNameAction: function(name) {
+    setNameAction: function(name: string): any {
       dispatch(setNameAction(name));
     }
   }

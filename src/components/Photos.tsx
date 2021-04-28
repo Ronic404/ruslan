@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { FC } from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 
 import ruslan_1 from '../img/ruslan_1.jpeg';
 import ruslan_2 from '../img/ruslan_2.jpeg';
 import photoLena from '../img/lena.jpeg';
 import roma_1 from '../img/roma_1.jpeg';
 import girl from '../img/girl.jpg';
+
+import { useTypedSelector } from '../hooks/useTypedSelector';
 
 // ---------------------------------------------------------
 
@@ -25,10 +27,15 @@ const Lena = styled(Img)`
   object-position: left;
 `;
 
+interface IPhotos {
+  isAnswered: boolean;
+  name: string | null;
+}
+
 // ---------------------------------------------------------
 
-export default function photos() {
-  const { isAnswered, name } = useSelector(state => state);
+const photos: FC = () => {
+  const { isAnswered, name }: IPhotos = useTypedSelector(state => state);
   const photoRuslana = isAnswered ? ruslan_2 : ruslan_1;
 
   if (name === 'ruslan') {
@@ -46,4 +53,8 @@ export default function photos() {
       </Photos>
     );
   }
+
+  return <></>;
 } 
+
+export default photos;

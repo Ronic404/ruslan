@@ -1,9 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { useRef, useState, FC, MouseEvent, ChangeEvent } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
+import { useTypedSelector } from '../hooks/useTypedSelector';
 import { submitAction, resetAction } from '../redux/actions';
+import { IState } from '../types/forRedux';
+
 import unitaz from '../audio/unitaz.mp3';
 import tralala from '../audio/tralala.mp3';
 
@@ -35,14 +38,14 @@ const Button = styled.button`
 
 // ---------------------------------------------------------
 
-export default function form() {
-  const [numOfDeals, setNumOfDeals] = useState('');
-  const [opacity, setOpacity] = useState('true');
-  const dealsRef = useRef();
+const form: FC = () => {
+  const [numOfDeals, setNumOfDeals] = useState<number | null>(null);
+  const [opacity, setOpacity] = useState<string>('true');
+  const dealsRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-  const { isAnswered, name } = useSelector(state => state);
+  const { isAnswered, name }: IState = useTypedSelector(state => state);
   
-  const audio = document.querySelector('#unitaz');
+  const audio: HTMLAudioElement | null = document.querySelector('#unitaz');
   
   let sound;
 
@@ -52,14 +55,14 @@ export default function form() {
     sound = unitaz;
   }
 
-  function clickHandler(e) {
+  function clickHandler(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     if (!isAnswered) {
-      if (dealsRef.current.value !== '') {
-        setNumOfDeals('');
-        dispatch(submitAction(dealsRef.current.value));
-        audio.volume = 0.2;
-        audio.play();
+      if (dealsRef.current?.value !== '' && dealsRef.current?.value !== undefined) {
+        setNumOfDeals(null);
+        dispatch(submitAction(+dealsRef.current.value));
+        audio && (audio.volume = 0.2);
+        audio?.play();
       }
     } else {
       setOpacity('true');
@@ -67,13 +70,13 @@ export default function form() {
     }
   }
 
-  function changeHandler(event) {
-    if (dealsRef.current.value === '') {
+  function changeHandler(event: ChangeEvent<HTMLInputElement>): void {
+    if (dealsRef.current?.value === '') {
       setOpacity('true');
     } else {
       setOpacity('false');
     }
-    setNumOfDeals(event.target.value);
+    setNumOfDeals(+event.target.value);
   }
 
   return (
@@ -81,7 +84,7 @@ export default function form() {
       {!isAnswered && 
         <Question>
           <label>Введи число:</label>
-          <input type="number" ref={dealsRef} value={numOfDeals} onChange={changeHandler}/>
+          <input type="number" ref={dealsRef} value={numOfDeals || ''} onChange={changeHandler}/>
         </Question>
       }
       <audio id="unitaz">
@@ -93,3 +96,5 @@ export default function form() {
     </Form>
   );
 } 
+
+export default form;

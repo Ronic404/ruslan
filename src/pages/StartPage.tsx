@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import voiceGenerator from '../utils/voiceGenerator';
 import daysCounter from '../utils/daysCounter';
@@ -29,10 +30,10 @@ const ButtonQuiz = styled.button`
 
 // -------------------------------------------------------------
 
-export default function StartPage() {
+export default function StartPage(): ReactElement {
   const days = daysCounter();
   
-  function clickHandler() {
+  function clickHandler(): void {
     switch (days) {
       case 0:
         voiceGenerator('В этом месяце ты ещё не работал');
