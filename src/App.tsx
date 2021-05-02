@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Title from './components/Title';
@@ -8,6 +7,7 @@ import RuslanPage from './pages/RuslanPage';
 import RomaPage from './pages/RomaPage';
 import Rules from './pages/Rules';
 import Quiz from './pages/Quiz';
+import Desk from './pages/Desk';
 
 export default function App() {
   return (
@@ -28,6 +28,9 @@ export default function App() {
         </Route>
         <Route path="/quiz">
           <Quiz />
+        </Route>
+        <Route path="/desk">
+          <Desk />
         </Route>
       </Switch>
     </>

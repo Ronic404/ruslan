@@ -5,10 +5,13 @@ enum ActionTypes {
   RESET_NAME = 'RESET_NAME',
 }
 
-interface IState {
+interface IPerson {
   isAnswered: boolean;
   numberOfDeals: number | null;
   name: string | null;
+}
+interface IState {
+  person: IPerson,
 }
 
 interface ISubmitAction {
@@ -36,4 +39,4 @@ type Actions =
   IResetNameAction;
 
 export { ActionTypes };
-export type { IState, Actions };
+export type { IPerson, IState, Actions };

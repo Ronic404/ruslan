@@ -1,15 +1,9 @@
-import reducer from '../redux/reducer';
-import { submitAction, resetAction } from '../redux/actions';
+import reducer from '../redux/reducers/person';
+import { submitAction, resetAction, setNameAction, resetNameAction } from '../redux/actions';
 
 const state = {
   isAnswered: false,
   numberOfDeals: null,
-  name: null,
-}
-
-const state_2 = {
-  isAnswered: true,
-  numberOfDeals: 10,
   name: null,
 }
 
@@ -25,12 +19,28 @@ describe('reducer should', () => {
     });
   });
 
-  test('reset state', () => {
-    const resetState = reducer(state_2, resetAction());
-    expect(resetState).toEqual({
+  test('reset numberOfDeals', () => {
+    const newState = reducer(state, resetAction());
+    expect(newState).toEqual({
       ...state,
       isAnswered: false,
       numberOfDeals: null,
+    });
+  });
+
+  test('set name', () => {
+    const newState = reducer(state, setNameAction('ruslan'));
+    expect(newState).toEqual({
+      ...state,
+      name: 'ruslan',
+    });
+  });
+
+  test('reset name', () => {
+    const newState = reducer(state, resetNameAction());
+    expect(newState).toEqual({
+      ...state,
+      name: null,
     });
   });
 });

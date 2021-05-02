@@ -1,14 +1,12 @@
-import { IState, ActionTypes, Actions } from '../types/forRedux';
+import { IPerson, ActionTypes, Actions } from '../../types/forRedux';
 
-const initialState: IState = {
+const initialState: IPerson = {
   isAnswered: false,
   numberOfDeals: null,
   name: null,
 }
 
-export type RootState = ReturnType<typeof reducer>;
-
-export default function reducer(state: IState = initialState, action: Actions): IState {
+export default function person(state: any = initialState, action: Actions): IPerson {
   switch (action.type) {
     case ActionTypes.SUBMIT: 
       return {

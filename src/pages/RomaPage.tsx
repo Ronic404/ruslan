@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import { setNameAction } from '../redux/actions';
 import { Actions } from '../types/forRedux';
 
+import roma_1 from '../img/roma_1.jpeg';
+import ruslan_3 from '../img/ruslan_3.jpeg';
+// import girl from '../img/girl.jpg';
+
 import Photos from '../components/Photos';
 import Form from '../components/Form';
 import Answer from '../components/Answer';
@@ -19,7 +23,7 @@ const RomaPage: FC<IRomaProps> = ({ setNameAction }) => {
   
   return (
     <>
-      <Photos />
+      <Photos photo={[roma_1, ruslan_3]} />
       <Form />
       <Answer />
     </>

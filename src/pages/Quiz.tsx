@@ -76,7 +76,7 @@ const Quiz: FC<IQuizProps> = ({ setNameAction }) => {
     if (refInput.current !== null) {
       if (answers.includes(refInput.current.value.toLowerCase().trim())) {
         new Audio(tralala).play();
-        setResult('Красучик!!!');
+        setResult('Красаучик!!!');
         setShowPopup(true);
       } else if (refInput.current.value === '') {
         return

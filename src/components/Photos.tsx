@@ -1,26 +1,26 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { FC } from 'react';
+import Loader from 'react-loader';
 import styled from 'styled-components';
 
-import ruslan_1 from '../img/ruslan_1.jpeg';
-import ruslan_2 from '../img/ruslan_2.jpeg';
-import photoLena from '../img/lena.jpeg';
-import roma_1 from '../img/roma_1.jpeg';
-import girl from '../img/girl.jpg';
-
 import { useTypedSelector } from '../hooks/useTypedSelector';
-
-// ---------------------------------------------------------
+import { IPerson } from '../types/forRedux';
 
 const Photos = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const Img = styled.img`
+const DivImg = styled.div`
+  position: relative;
   width: 40vw;
   height: 40vh;
+`;
+
+const Img = styled.img`
   object-fit: cover;
+  display: none;
+  width: 100%;
 `;
 
 const Lena = styled(Img)`
@@ -28,32 +28,46 @@ const Lena = styled(Img)`
 `;
 
 interface IPhotos {
-  isAnswered: boolean;
-  name: string | null;
+  photo: string[];
 }
 
 // ---------------------------------------------------------
 
-const photos: FC = () => {
-  const { isAnswered, name }: IPhotos = useTypedSelector(state => state);
-  const photoRuslana = isAnswered ? ruslan_2 : ruslan_1;
+const photos: FC<IPhotos> = ({ photo }) => {
+  const { isAnswered, name }: IPerson = useTypedSelector(state => state.person);
+  let mainPhoto: string;
 
-  if (name === 'ruslan') {
-    return (
-      <Photos>
-        <Img src={photoRuslana} alt="Ruslan" />
-        {isAnswered && <Lena src={photoLena} alt="Lena" />}
-      </Photos>
-    );
-  } else if (name === 'roma') {
-    return (
-      <Photos>
-        <Img src={roma_1} alt="Roma" />
-        {isAnswered && <Img src={girl} alt="Girl" />}
-      </Photos>
-    );
+  if (photo[2]) {
+    mainPhoto = isAnswered ? photo[2] : photo[0];
+  } else {
+    mainPhoto = photo[0];
   }
 
+  function hideLoader(e: any): void {
+    const loader: HTMLElement = e.target.parentElement.children[0];
+    const photo: HTMLElement = e.target;
+    (loader.style.display = 'none');
+    (photo.style.display = 'block');
+  }
+
+  if (name !== 'quiz') {
+    return (
+      <Photos>
+        <DivImg>
+            <Loader loaded={false}></Loader>
+          <Img src={mainPhoto} onLoad={hideLoader} alt="Ruslan" />
+        </DivImg>
+        <DivImg>
+          {isAnswered && 
+            <>
+              <Loader loaded={false}></Loader>
+              <Lena src={photo[1]} onLoad={hideLoader} alt="Lena" />
+            </>
+          }
+        </DivImg>
+      </Photos>
+    );
+  } 
   return <></>;
 } 
 

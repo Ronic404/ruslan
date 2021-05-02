@@ -23,7 +23,7 @@ const Avatars = styled.div`
   }
 `;
 
-const ButtonQuiz = styled.button`
+const Button = styled.button`
   width: 100%;
   margin-top: 10px;
 `;
@@ -57,17 +57,20 @@ export default function StartPage(): ReactElement {
     <>
       <h3>Выбери бедолагу:</h3>
       <Avatars>
-        <Link to="/roma">
-          <img src={ava_roma} alt="Roma" />
-        </Link>
         <Link to="/ruslan">
           <img src={ava_ruslan} alt="Ruslan" />
+        </Link>
+        <Link to="/roma">
+          <img src={ava_roma} alt="Roma" />
         </Link>
       </Avatars>
       <button type="button" onClick={clickHandler}>Сколько дней отработано?</button>
       <br />
       <Link to="/quiz">
-        <ButtonQuiz type="button">Викторина</ButtonQuiz>
+        <Button type="button">Викторина</Button>
+      </Link>
+      <Link to="/desk">
+        <Button type="button">Доска заданий</Button>
       </Link>
     </>
   );

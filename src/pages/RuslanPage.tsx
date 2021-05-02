@@ -7,6 +7,10 @@ import Form from '../components/Form';
 import Answer from '../components/Answer';
 import Tip from '../components/Tip';
 
+import ruslan_1 from '../img/ruslan_1.jpeg';
+import ruslan_2 from '../img/ruslan_2.jpeg';
+import photoLena from '../img/lena.jpeg';
+
 import { setNameAction } from '../redux/actions';
 import { Actions, IState } from '../types/forRedux';
 
@@ -22,7 +26,7 @@ const RuslanPage: FC<IRuslanPageProps> = ({ isAnswered, setNameAction }) => {
 
   return (
     <>
-      <Photos />
+      <Photos photo={[ruslan_1, photoLena, ruslan_2]} />
       <Form />
       <Answer />
       {isAnswered ? <Tip /> : ''}
@@ -32,9 +36,9 @@ const RuslanPage: FC<IRuslanPageProps> = ({ isAnswered, setNameAction }) => {
 
 // --------------------------------------------------
 
-function mapStateToProps(state: IState) {
+function mapStateToProps({person}: IState) {
   return {
-    isAnswered: state.isAnswered,
+    isAnswered: person.isAnswered,
   }
 }
 

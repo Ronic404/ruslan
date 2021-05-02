@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { submitAction, resetAction } from '../redux/actions';
-import { IState } from '../types/forRedux';
+import { IPerson } from '../types/forRedux';
 
 import unitaz from '../audio/unitaz.mp3';
 import tralala from '../audio/tralala.mp3';
@@ -43,7 +43,7 @@ const form: FC = () => {
   const [opacity, setOpacity] = useState<string>('true');
   const dealsRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-  const { isAnswered, name }: IState = useTypedSelector(state => state);
+  const { isAnswered, name }: IPerson = useTypedSelector(state => state.person);
   
   const audio: HTMLAudioElement | null = document.querySelector('#unitaz');
   

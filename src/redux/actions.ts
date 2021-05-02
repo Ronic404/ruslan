@@ -20,10 +20,10 @@ function resetAction(): Actions {
   }
 }
 
-function resetName(): Actions {
+function resetNameAction(): Actions {
   return {
     type: ActionTypes.RESET_NAME,
   }
 }
 
-export { setNameAction, submitAction, resetAction, resetName };
+export { setNameAction, submitAction, resetAction, resetNameAction };

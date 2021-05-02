@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { resetName } from '../redux/actions';
+import { resetNameAction } from '../redux/actions';
 import { Actions, IState } from '../types/forRedux';
 
 const Header = styled.div`
@@ -53,16 +53,16 @@ const Title: FC<ITitle> = ({ name, resetName }) => {
 
 // ------------------------------------------------------
 
-function mapStateToProps(state: IState) {
+function mapStateToProps({person}: IState) {
   return {
-    name: state.name,
+    name: person.name,
   }
 }
 
 function mapDispatchToProps(dispatch: Dispatch<Actions>) {
   return {
     resetName: function(): any {
-      dispatch(resetName())
+      dispatch(resetNameAction())
     }
   }
 }
