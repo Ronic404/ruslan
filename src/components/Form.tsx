@@ -62,6 +62,8 @@ const Form: FC<IFormProps> = ({ sound }) => {
   }
 
   function changeHandler(event: ChangeEvent<HTMLInputElement>): void {
+    console.log(+event.target.value);
+    
     if (dealsRef.current?.value === '') {
       setOpacity('true');
     } else {
@@ -75,7 +77,7 @@ const Form: FC<IFormProps> = ({ sound }) => {
       {!isAnswered && 
         <Question>
           <label>Введи число:</label>
-          <input type="number" ref={dealsRef} value={numOfDeals || ''} onChange={changeHandler}/>
+          <input style={{color: "black"}} type="number" ref={dealsRef} value={numOfDeals || ''} onChange={changeHandler}/>
         </Question>
       }
       <audio id="unitaz" preload="auto">

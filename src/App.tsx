@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Title from './components/Title';
+import ButtonUp from './components/ButtonUp';
 
 import StartPage from './pages/StartPage';
 import RuslanPage from './pages/RuslanPage';
@@ -22,6 +23,7 @@ const App: FC = () => {
         <Route path="/quiz/rules" component={Rules} />
         <Route path="/desk" component={Desk} />
       </Switch>
+      <ButtonUp />
     </>
   );
 }
