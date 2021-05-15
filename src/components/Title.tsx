@@ -15,6 +15,8 @@ const H1 = styled.h1`
   text-align: center;
   font-size: 2rem;
   color: whitesmoke;
+  text-shadow: 0px 2px 1px green;
+  margin-bottom: 1rem;
 `;
 
 const Back = styled.div`
@@ -34,16 +36,12 @@ interface ITitle {
 // ------------------------------------------------------
 
 const Title: FC<ITitle> = ({ name, resetName }) => {
-  function clickHandler() {
-    resetName();
-  }
-
   return (
     <Header>
       <H1>Программа для расчёта количества сделок</H1>
       {name ? 
-        <Link to="/">
-          <Back onClick={clickHandler}>←</Back>
+        <Link to="/" onClick={resetName} >
+          <Back>←</Back>
         </Link> 
         : ''
       }

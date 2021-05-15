@@ -1,4 +1,4 @@
-import reducer from '../redux/reducers/person';
+import personReducer from '../redux/reducers/personReducer';
 import { submitAction, resetAction, setNameAction, resetNameAction } from '../redux/actions';
 
 const state = {
@@ -11,7 +11,7 @@ const state = {
 
 describe('reducer should', () => {
   test('change numberOfDeals', () => {
-    const newState = reducer(state, submitAction(5));
+    const newState = personReducer(state, submitAction(5));
     expect(newState).toEqual({
       ...state,
       isAnswered: true,
@@ -20,7 +20,7 @@ describe('reducer should', () => {
   });
 
   test('reset numberOfDeals', () => {
-    const newState = reducer(state, resetAction());
+    const newState = personReducer(state, resetAction());
     expect(newState).toEqual({
       ...state,
       isAnswered: false,
@@ -29,7 +29,7 @@ describe('reducer should', () => {
   });
 
   test('set name', () => {
-    const newState = reducer(state, setNameAction('ruslan'));
+    const newState = personReducer(state, setNameAction('ruslan'));
     expect(newState).toEqual({
       ...state,
       name: 'ruslan',
@@ -37,7 +37,7 @@ describe('reducer should', () => {
   });
 
   test('reset name', () => {
-    const newState = reducer(state, resetNameAction());
+    const newState = personReducer(state, resetNameAction());
     expect(newState).toEqual({
       ...state,
       name: null,

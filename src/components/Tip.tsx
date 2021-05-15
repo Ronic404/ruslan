@@ -1,6 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState, FC } from 'react';
+import { FC, Dispatch } from 'react';
+import { connect } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
+
+import { Actions, IState, ITip } from '../types/forRedux';
+import { showTipAction } from '../redux/actions';
 
 import song from '../audio/lubimka.mp3';
 
@@ -16,7 +20,7 @@ const zoom = keyframes`
   }
 `;
 
-const Tip = styled.div`
+const TipBlock = styled.div`
   position: fixed;
   bottom: 1rem;
   left: 50%;
@@ -36,35 +40,53 @@ const TipTitle = styled.p`
   padding-top: 10px;
 `;
 
+interface ITipProps {
+  showTip: boolean;
+  showTipAction: (bool: boolean) => Actions;
+}
+
 // -----------------------------------------------
 
-const tip: FC = () => {
-  const [show, setShow] = useState<boolean>(false);
-
-  const audio: HTMLAudioElement | null = document.querySelector('#unitaz');
-  const audio2: HTMLAudioElement | null = document.querySelector('#lubimka');
-
+const Tip: FC<ITipProps> = ({ showTip, showTipAction }) => {
   function clickHandler(): void {
-    setShow(true);
+    const audio: HTMLAudioElement | null = document.querySelector('#unitaz');
+    const audio2: HTMLAudioElement | null = document.querySelector('#lubimka');
+    showTipAction(true);
     if (audio) {
       audio.pause();
       audio.currentTime = 0;
     }
     audio2?.play();
     setTimeout(() => {
-      setShow(false);
+      showTipAction(false);
     }, 2000);
   }
 
   return (
-    <Tip>
-      {show ? <TipContent>Увеличивай средний чек</TipContent> : ''}
+    <TipBlock>
+      {showTip ? <TipContent>Увеличивай средний чек</TipContent> : ''}
       <TipTitle onClick={clickHandler}>Совет</TipTitle>
-      <audio id="lubimka">
+      <audio id="lubimka" preload="auto">
         <source src={song} type="audio/mp3" />
       </audio>
-    </Tip>
+    </TipBlock>
   );
 }
 
-export default tip;
+// -----------------------------------------------
+
+function mapStateToProps({ tip }: IState): ITip {
+  return {
+    showTip: tip.showTip,
+  }
+}
+
+function mapDispatchToProps(dispatch: Dispatch<Actions>) {
+  return {
+    showTipAction: function(bool: boolean): any {
+      dispatch(showTipAction(bool));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tip);

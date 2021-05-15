@@ -6,7 +6,7 @@ const initialState: IPerson = {
   name: null,
 }
 
-export default function person(state: any = initialState, action: Actions): IPerson {
+export default function personReducer(state: IPerson = initialState, action: Actions): IPerson {
   switch (action.type) {
     case ActionTypes.SUBMIT: 
       return {

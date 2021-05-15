@@ -1,6 +1,8 @@
-import { FC } from 'react';
-import { Dispatch } from 'redux';
+import { Dispatch, FC } from 'react';
 import { connect } from 'react-redux';
+
+import { Actions, IState } from '../types/forRedux';
+import { setNameAction } from '../redux/actions';
 
 import Photos from '../components/Photos';
 import Form from '../components/Form';
@@ -11,8 +13,7 @@ import ruslan_1 from '../img/ruslan_1.jpeg';
 import ruslan_2 from '../img/ruslan_2.jpeg';
 import photoLena from '../img/lena.jpeg';
 
-import { setNameAction } from '../redux/actions';
-import { Actions, IState } from '../types/forRedux';
+import unitaz from '../audio/unitaz.mp3';
 
 interface IRuslanPageProps {
   isAnswered: boolean;
@@ -27,7 +28,7 @@ const RuslanPage: FC<IRuslanPageProps> = ({ isAnswered, setNameAction }) => {
   return (
     <>
       <Photos photo={[ruslan_1, photoLena, ruslan_2]} />
-      <Form />
+      <Form sound={unitaz} />
       <Answer />
       {isAnswered ? <Tip /> : ''}
     </>

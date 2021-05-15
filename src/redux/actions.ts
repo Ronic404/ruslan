@@ -26,4 +26,11 @@ function resetNameAction(): Actions {
   }
 }
 
-export { setNameAction, submitAction, resetAction, resetNameAction };
+function showTipAction(bool: boolean): Actions {
+  return {
+    type: ActionTypes.SHOW_TIP,
+    payload: bool,
+  }
+}
+
+export { setNameAction, submitAction, resetAction, resetNameAction, showTipAction };

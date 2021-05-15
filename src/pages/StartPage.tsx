@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { Dispatch, FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -7,30 +7,58 @@ import daysCounter from '../utils/daysCounter';
 
 import ava_roma from '../img/ava_roma.jpeg';
 import ava_ruslan from '../img/ava_ruslan.jpeg';
+import { connect } from 'react-redux';
+import { setNameAction } from '../redux/actions';
+import { Actions } from '../types/forRedux';
+
+import babka from '../audio/babka.mp3';
+
+import store from '../redux/store';
+
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 55vh;
+  justify-content: space-between;
+`;
+
+const ChooseTitle = styled.h3`
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
 
 const Avatars = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
-  gap: 1rem;
-
+  justify-content: space-around;
   img {
     border-radius: 100%;
     width: 30vw;
-
     :hover{
       transform: scale(1.1);
     }
   }
 `;
 
+const ButtonsBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex: 2;
+`;
+
 const Button = styled.button`
   width: 100%;
-  margin-top: 10px;
 `;
+
+interface IStartPageProps {
+  setNameAction: (name: string) => Actions;
+}
 
 // -------------------------------------------------------------
 
-export default function StartPage(): ReactElement {
+const StartPage: FC<IStartPageProps> = ({ setNameAction }) => {
   const days = daysCounter();
   
   function clickHandler(): void {
@@ -53,25 +81,44 @@ export default function StartPage(): ReactElement {
     }
   }
 
+  function playSound(): void {
+    const audio = new Audio(babka);
+    audio.play();
+    store.subscribe(() => audio && audio.pause());
+  }
+
+
   return(
-    <>
-      <h3>Выбери бедолагу:</h3>
+    <Section>
+      <ChooseTitle>Выбери бедолагу:</ChooseTitle>
       <Avatars>
-        <Link to="/ruslan">
+        <Link to="/person/ruslan" onClick={() => setNameAction('ruslan')}>
           <img src={ava_ruslan} alt="Ruslan" />
         </Link>
-        <Link to="/roma">
+        <Link to="/person/roma" onClick={() => setNameAction('roma')}>
           <img src={ava_roma} alt="Roma" />
         </Link>
       </Avatars>
-      <button type="button" onClick={clickHandler}>Сколько дней отработано?</button>
-      <br />
-      <Link to="/quiz">
-        <Button type="button">Викторина</Button>
-      </Link>
-      <Link to="/desk">
-        <Button type="button">Доска заданий</Button>
-      </Link>
-    </>
+      <ButtonsBlock>
+        <Button className="button" type="button" onClick={clickHandler}>Сколько дней отработано?</Button>
+        <Link to="/quiz" onClick={() => setNameAction('quiz')}>
+          <Button className="button" type="button">Викторина</Button>
+        </Link>
+        <Link to="/desk" onClick={() => setNameAction('desk')}>
+          <Button className="button" type="button">Доска заданий</Button>
+        </Link>
+        <Button className="button" type="button" onClick={playSound}>Руслан, сколько контактов ты обработал?</Button>
+      </ButtonsBlock>
+    </Section>
   );
 }
+
+function mapDispatchToProps(dispatch: Dispatch<Actions>) {
+  return {
+    setNameAction: function(name: string): any {
+      dispatch(setNameAction(name));
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(StartPage);

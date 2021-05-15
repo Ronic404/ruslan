@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Title from './components/Title';
@@ -9,30 +10,20 @@ import Rules from './pages/Rules';
 import Quiz from './pages/Quiz';
 import Desk from './pages/Desk';
 
-export default function App() {
+const App: FC = () => {
   return (
     <>
       <Title />
       <Switch>
-        <Route path="/" exact>
-          <StartPage />
-        </Route>
-        <Route path="/ruslan">
-          <RuslanPage />
-        </Route>
-        <Route path="/roma">
-          <RomaPage />
-        </Route>
-        <Route path="/rules">
-          <Rules />
-        </Route>
-        <Route path="/quiz">
-          <Quiz />
-        </Route>
-        <Route path="/desk">
-          <Desk />
-        </Route>
+        <Route path="/" exact component={StartPage} />
+        <Route path="/person/ruslan" component={RuslanPage} />
+        <Route path="/person/roma" component={RomaPage} />
+        <Route path="/quiz" exact component={Quiz} />
+        <Route path="/quiz/rules" component={Rules} />
+        <Route path="/desk" component={Desk} />
       </Switch>
     </>
   );
 }
+
+export default App;

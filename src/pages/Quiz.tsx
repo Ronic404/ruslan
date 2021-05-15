@@ -1,12 +1,12 @@
-import { Dispatch, FC, useRef, useState, FormEvent} from 'react';
+import { FC, useRef, useState, FormEvent, Dispatch} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
-import Tip from '../components/Tip';
-
 import { Actions } from '../types/forRedux';
 import { setNameAction } from '../redux/actions';
+
+import Tip from '../components/Tip';
 
 import tralala from '../audio/tralala.mp3';
 import among from '../audio/among.mp3';
@@ -27,7 +27,6 @@ const Title = styled.h2`
   color: green;
   animation: ${changecolor} 3s infinite;
 `;
-
 
 const ButtonRules = styled.button`
   width: 100%;
@@ -50,11 +49,11 @@ const Popup = styled.div`
 interface IQuizProps {
   setNameAction: (name: string) => Actions;
 }
-
 // -----------------------------------------------
 
 const Quiz: FC<IQuizProps> = ({ setNameAction }) => {
   setNameAction('quiz');
+
   const answers = [
     'увеличивай средний чек',
     'увеличить средний чек',
@@ -64,12 +63,7 @@ const Quiz: FC<IQuizProps> = ({ setNameAction }) => {
 
   const [showPopup, setShowPopup] = useState(false);
   const [result, setResult] = useState('');
-
   const refInput = useRef<HTMLInputElement>(null);
-
-  function closePopup(): void {
-    setShowPopup(false);
-  }
 
   function clickHandler(e: FormEvent<HTMLButtonElement>): void {
     e.preventDefault();
@@ -99,16 +93,16 @@ const Quiz: FC<IQuizProps> = ({ setNameAction }) => {
         <input ref={refInput} placeholder="Введи ответ" />
       </label>
       <br />
-      <Submit type="submit" onClick={clickHandler}>Ответить</Submit>
+      <Submit className="button" type="submit" onClick={clickHandler}>Ответить</Submit>
      </form>
-     <Link to="/rules">
-        <ButtonRules type="button">Правила игры!</ButtonRules>
+     <Link to="/quiz/rules" onClick={() => setNameAction('rules')}>
+        <ButtonRules className="button" type="button">Правила игры!</ButtonRules>
       </Link>
       <Tip />
       {showPopup &&
         <Popup>
           <p>{result}</p>
-          <button onClick={closePopup}>Закрыть</button>
+          <button className="button" onClick={() => setShowPopup(false)}>Закрыть</button>
         </Popup>
       }
     </>

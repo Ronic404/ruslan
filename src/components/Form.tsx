@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useRef, useState, FC, MouseEvent, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -7,12 +6,9 @@ import { useTypedSelector } from '../hooks/useTypedSelector';
 import { submitAction, resetAction } from '../redux/actions';
 import { IPerson } from '../types/forRedux';
 
-import unitaz from '../audio/unitaz.mp3';
-import tralala from '../audio/tralala.mp3';
-
 // ---------------------------------------------------------
 
-const Form = styled.form`
+const FormBlock = styled.form`
   margin-top: 1rem;
   font-size: 1.5rem;
   label {
@@ -36,24 +32,19 @@ const Button = styled.button`
   transition: 0.3s;
 `;
 
+interface IFormProps {
+  sound: string;
+}
+
 // ---------------------------------------------------------
 
-const form: FC = () => {
+const Form: FC<IFormProps> = ({ sound }) => {
   const [numOfDeals, setNumOfDeals] = useState<number | null>(null);
   const [opacity, setOpacity] = useState<string>('true');
   const dealsRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-  const { isAnswered, name }: IPerson = useTypedSelector(state => state.person);
-  
+  const { isAnswered }: IPerson = useTypedSelector(state => state.person);
   const audio: HTMLAudioElement | null = document.querySelector('#unitaz');
-  
-  let sound;
-
-  if (name === 'roma') {
-    sound = tralala;
-  } else if (name === 'ruslan') {
-    sound = unitaz;
-  }
 
   function clickHandler(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
@@ -80,21 +71,21 @@ const form: FC = () => {
   }
 
   return (
-    <Form>
+    <FormBlock>
       {!isAnswered && 
         <Question>
           <label>Введи число:</label>
           <input type="number" ref={dealsRef} value={numOfDeals || ''} onChange={changeHandler}/>
         </Question>
       }
-      <audio id="unitaz">
+      <audio id="unitaz" preload="auto">
         <source src={sound} />
       </audio>
-      <Button opacity={opacity} onClick={clickHandler} type="submit">
+      <Button className="button" opacity={opacity} onClick={clickHandler} type="submit">
         {isAnswered ? 'Попробуй ещё раз' : 'Сделать расчёт'}
       </Button>
-    </Form>
+    </FormBlock>
   );
 } 
 
-export default form;
+export default Form;

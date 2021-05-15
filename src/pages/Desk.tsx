@@ -32,7 +32,6 @@ const TaskCard = styled.p`
 interface IDeskProps {
   setNameAction: (name: string) => Actions;
 };
-
 interface ITask {
   id: number,
   title: string,
@@ -81,18 +80,19 @@ const Desk: FC<IDeskProps> = ({ setNameAction }) => {
   setNameAction('desk');
 
   const [desks, setDesks] = useState<IDesk[]>(initialDesks);
-
   const [currentDesk, setCurrentDesk] = useState<IDesk>(desks[0]);
   const [currentTask, setCurrentTask] = useState<ITask>(desks[0].tasks[0]);
 
   function dragStartHandler(e: any, desk: IDesk, task: ITask): void {
-    e.target.style.background = 'grey';
     setCurrentDesk(desk);
     setCurrentTask(task);
+    e.target.style.background = 'grey';
+    setTimeout(() => { e.target.style.opacity = '0.2' }, 0);
   };
 
   function dragEndHandler(e: any): void {
     e.target.style.background = 'transparent';
+    e.target.style.opacity = '1';
   };
 
   function dragOverHandler(e: any): void {
@@ -105,7 +105,6 @@ const Desk: FC<IDeskProps> = ({ setNameAction }) => {
   };
 
   function dropHandler(e: any, desk: IDesk, task: ITask): void {
-    e.preventDefault();
     e.stopPropagation();
     e.target.style.background = 'transparent';
     const currentIndex: number = currentDesk.tasks.indexOf(currentTask);
@@ -158,10 +157,13 @@ const Desk: FC<IDeskProps> = ({ setNameAction }) => {
                 key={task.id}
                 draggable={true}
                 onDragStart={(e) => dragStartHandler(e, desk, task)}
+                onTouchStart={(e) => dragStartHandler(e, desk, task)} // touch
                 onDragEnd={dragEndHandler}
+                onTouchEnd={dragEndHandler} // touch
                 onDragOver={dragOverHandler}
                 onDragLeave={dragLeaveHandler}
                 onDrop={(e) => dropHandler(e, desk, task)}
+                
               >
                 {task.title}
               </TaskCard>
@@ -173,6 +175,8 @@ const Desk: FC<IDeskProps> = ({ setNameAction }) => {
   );
 }
 
+// ----------------------------------------
+
 function mapDispatchToProps(dispatch: Dispatch<Actions>) {
   return {
     setNameAction: function(name: string): any {
@@ -182,3 +186,4 @@ function mapDispatchToProps(dispatch: Dispatch<Actions>) {
 }
 
 export default connect(null, mapDispatchToProps)(Desk);
+
